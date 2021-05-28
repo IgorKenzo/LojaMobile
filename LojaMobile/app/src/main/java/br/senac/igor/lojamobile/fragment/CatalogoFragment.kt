@@ -80,15 +80,31 @@ class CatalogoFragment : Fragment() {
 
         produtos?.forEach {
 
+            //filtro categoria
             if (filtrosCategorias.count() <= 0 || filtrosCategorias.contains(it.categoria)) {
+                //filtro pesquisa nome
                 if (filtroPesquisa != null) {
                     if (it.nome.contains(filtroPesquisa!!, true)) {
+
                         val cardBinding = GameCardBinding.inflate(layoutInflater)
 
                         cardBinding.GameName.text = it.nome
                         cardBinding.GamePrice.text = it.preco.toString()
 
+                        val produto = it
+
+                        cardBinding.root.setOnClickListener {
+
+                            val frag = DetalheFragment.newInstance(produto)
+
+                            parentFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragContainer, frag)
+                                .commit()
+                        }
+
                         b.container.addView(cardBinding.root)
+
                     }
                 }
                 else {
@@ -141,7 +157,7 @@ class CatalogoFragment : Fragment() {
                     .make(b.container, R.string.CallbackErrorConection, Snackbar.LENGTH_LONG)
                     .show()
 
-                Log.e("ERRO", "Falha ao chamar o serviÃ§o", t)
+                Log.e("ERRO", "Falha ao chamar o serviço", t)
             }
         }
 

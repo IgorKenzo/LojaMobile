@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.databinding.ActivityMainBinding
 import br.senac.igor.lojamobile.fragment.CatalogoFragment
+import br.senac.igor.lojamobile.fragment.SobreFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -47,6 +48,17 @@ class MainActivity : AppCompatActivity() {
 
                     true
                 }
+                R.id.sobre -> {
+                    val  frag = SobreFragment()
+
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(b.fragContainer.id, frag)
+                        .commit()
+
+                    true
+                }
+
 
                 else -> false
             }

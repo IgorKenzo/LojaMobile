@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.databinding.FragmentDetalheBinding
+import br.senac.igor.lojamobile.model.Descricao
 import br.senac.igor.lojamobile.model.Produto
 import br.senac.igor.lojamobile.services.ProdutoService
 import com.google.android.material.snackbar.Snackbar
@@ -37,17 +38,25 @@ class DetalheFragment : Fragment() {
 
         buscarDescricao()
 
+        montarUI()
+
         //TODO configurar botão carrinho
 
         return b.root
     }
 
     fun montarUI() {
+        Log.e("Produto Vazio?", produto.toString())
+
         b.txtNome.setText(produto.nome)
         //TODO colocar imagem
         b.chipCategoria.setText(produto.categoria)
+        b.txtPreco.setText("R$ " + produto.preco.toString())
+        //TODO colocar desconto
+    }
+
+    fun colocarDescricao() {
         b.txtDescricao.setText(desricao)
-        b.txtPreco.setText(produto.preco.toString())
     }
 
     fun buscarDescricao() {
@@ -66,11 +75,11 @@ class DetalheFragment : Fragment() {
 
         val call = service.descricao(produto.id)
 
-        var callback = object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        var callback = object : Callback<Descricao> {
+            override fun onResponse(call: Call<Descricao>, response: Response<Descricao>) {
                 if (response.isSuccessful) {
-                    desricao = response.body()
-                    montarUI()
+                    desricao = response.body()!!.descricao
+                    colocarDescricao()
                 }
                 else {
                     Snackbar
@@ -78,20 +87,20 @@ class DetalheFragment : Fragment() {
                         .show()
 
                     Log.e("ERRO", response.errorBody().toString())
-                    montarUI()
                 }
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<Descricao>, t: Throwable) {
                 Snackbar
                     .make(b.txtDescricao, R.string.CallbackErrorConection, Snackbar.LENGTH_LONG)
                     .show()
 
                 Log.e("ERRO", "Falha ao chamar o serviço", t)
-                montarUI()
             }
 
         }
+
+        call.enqueue(callback)
     }
 
     companion object {

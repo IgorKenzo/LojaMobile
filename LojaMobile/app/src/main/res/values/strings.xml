@@ -17,5 +17,9 @@
     <string name="ChipShooter">Shooter</string>
     <string name="ChipRogueLike">Rogue Like</string>
     <string name="addCarrinho">Adicionar ao Carrinho</string>
+    <string name="Descricao">Descrição não disponível</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="Integrantes">Integrantes</string>
+    <string name="Intituicao">Instituição</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

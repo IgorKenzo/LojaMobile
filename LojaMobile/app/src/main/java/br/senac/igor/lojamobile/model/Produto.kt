@@ -9,3 +9,7 @@ data class Produto(
     var categoria : String,
     var desconto : Int
 ) : Serializable
+
+data class Descricao(
+    var descricao: String
+)

@@ -89,7 +89,7 @@ class CatalogoFragment : Fragment() {
                         val cardBinding = GameCardBinding.inflate(layoutInflater)
 
                         cardBinding.GameName.text = it.nome
-                        cardBinding.GamePrice.text = it.preco.toString()
+                        cardBinding.GamePrice.text = "R$ " + it.preco.toString()
 
                         val produto = it
 
@@ -112,6 +112,18 @@ class CatalogoFragment : Fragment() {
 
                     cardBinding.GameName.text = it.nome
                     cardBinding.GamePrice.text = it.preco.toString()
+
+                    val produto = it
+
+                    cardBinding.root.setOnClickListener {
+
+                        val frag = DetalheFragment.newInstance(produto)
+
+                        parentFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragContainer, frag)
+                            .commit()
+                    }
 
                     b.container.addView(cardBinding.root)
                 }

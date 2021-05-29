@@ -8,5 +8,10 @@
             android:icon="@drawable/catalogo"
             android:title="@string/CatalogoMenuItem"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/cartMenuItem"
+            android:icon="@drawable/cart"
+            android:title="@string/CarrinhoMenuItem"
+            app:showAsAction="ifRoom" />
     </group>
 </menu>

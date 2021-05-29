@@ -8,7 +8,9 @@ import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.databinding.ActivityMainBinding
+import br.senac.igor.lojamobile.fragment.CartFragment
 import br.senac.igor.lojamobile.fragment.CatalogoFragment
+import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +42,16 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.catalogo -> {
                     val frag = CatalogoFragment.newInstance(null)
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(b.fragContainer.id, frag)
+                        .commit()
+
+                    true
+                }
+
+                R.id.cartMenuItem -> {
+                    val frag = CartFragment.newInstance()
                     supportFragmentManager
                         .beginTransaction()
                         .replace(b.fragContainer.id, frag)
@@ -101,7 +113,6 @@ class MainActivity : AppCompatActivity() {
             })
 
         }
-
         return true
     }
 

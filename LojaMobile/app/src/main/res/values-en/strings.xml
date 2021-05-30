@@ -17,4 +17,5 @@
     <string name="ChipShooter">Shooter</string>
     <string name="ChipRogueLike">Rogue Like</string>
     <string name="buy">Buy</string>
+    <string name="Remove">Remove</string>
 </resources>

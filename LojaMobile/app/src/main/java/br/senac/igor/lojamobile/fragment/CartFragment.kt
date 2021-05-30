@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.database.CartDatabase
 import br.senac.igor.lojamobile.databinding.FragmentCartBinding
 import br.senac.igor.lojamobile.databinding.GameCardBinding
+import br.senac.igor.lojamobile.databinding.GameCardCartBinding
 import br.senac.igor.lojamobile.model.Compra
 import br.senac.igor.lojamobile.model.Game
 import com.google.firebase.auth.FirebaseAuth
@@ -23,41 +26,46 @@ class CartFragment : Fragment() {
     lateinit var b : FragmentCartBinding
     lateinit var database: DatabaseReference
     lateinit var games: List<Game>
+    lateinit var db : CartDatabase
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         b = FragmentCartBinding.inflate(inflater)
 
         setupFirebase()
 
-        val thread = Thread {
+        Thread {
 
-            val db = Room.databaseBuilder(container!!.context, CartDatabase::class.java, "game").build()
+            db = Room.databaseBuilder(container!!.context, CartDatabase::class.java, "game").build()
 //            db.gameDao().addToCart(Game(1,"Hollow Knight",20f,"MetroidVania"))
 //            db.gameDao().addToCart(Game(2,"Ori and the Will of the Wisps",50f,"MetroidVania"))
-            games = db.gameDao().getCart()
+            updateCart()
 
             activity?.runOnUiThread {
                 updateUi(games)
             }
 
-        }
-        thread.start()
-
+        }.start()
 
         b.buttonBuy.setOnClickListener {
 
-            buy(games)
+            if (games.isNotEmpty()) {
+                buy(games)
 
-            val thread = Thread {
-                val db = Room.databaseBuilder(container!!.context, CartDatabase::class.java, "game")
-                    .build()
-                db.gameDao().emptyCart()
+                Thread {
+                    db.gameDao().emptyCart()
+                }.start()
+
+                b.container.removeAllViews()
             }
-            thread.start()
-
-            b.container.removeAllViews()
+            else{
+                Toast.makeText(context,"Não há jogos no carrinho", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return b.root
+    }
+
+    fun updateCart() {
+        games = db.gameDao().getCart()
     }
 
     fun buy(games: List<Game>) {
@@ -82,10 +90,20 @@ class CartFragment : Fragment() {
         b.container.removeAllViews()
 
         games.forEach {
-            val cardBinding = GameCardBinding.inflate(layoutInflater)
+            val cardBinding = GameCardCartBinding.inflate(layoutInflater)
 
-            cardBinding.GameName.text = it.name
-            cardBinding.GamePrice.text = it.price.toString()
+            cardBinding.textName.text = it.name
+            cardBinding.textPrice.text = "R\$${it.price}"
+
+            cardBinding.buttonRemove.setOnClickListener {_ ->
+                Thread {
+                    db.gameDao().removeFromCart(it)
+                    updateCart()
+                    activity?.runOnUiThread {
+                        updateUi(this.games)
+                    }
+                }.start()
+            }
 
             b.container.addView(cardBinding.root)
         }

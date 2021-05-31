@@ -9,6 +9,11 @@
             android:title="@string/CatalogoMenuItem"
             app:showAsAction="ifRoom" />
         <item
+            android:id="@+id/cartMenuItem"
+            android:icon="@drawable/cart"
+            android:title="@string/CarrinhoMenuItem"
+            app:showAsAction="ifRoom" />
+      <item
             android:id="@+id/sobre"
             android:icon="@drawable/ic_baseline_info_24"
             android:title="@string/SobreMenuItem"

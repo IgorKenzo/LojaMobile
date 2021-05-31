@@ -8,7 +8,9 @@ import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.databinding.ActivityMainBinding
+import br.senac.igor.lojamobile.fragment.CartFragment
 import br.senac.igor.lojamobile.fragment.CatalogoFragment
+import kotlin.concurrent.thread
 import br.senac.igor.lojamobile.fragment.SobreFragment
 
 
@@ -59,6 +61,16 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+
+                R.id.cartMenuItem -> {
+                    val frag = CartFragment.newInstance()
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(b.fragContainer.id, frag)
+                        .commit()
+
+                    true
+                }
 
                 else -> false
             }
@@ -113,7 +125,6 @@ class MainActivity : AppCompatActivity() {
             })
 
         }
-
         return true
     }
 

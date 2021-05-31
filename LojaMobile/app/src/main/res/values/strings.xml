@@ -9,7 +9,6 @@
     <string name="SobreMenuItem">Sobre</string>
     <string name="AbrirMenu">Abrir Menu</string>
     <string name="FecharMenu">Fechar Menu</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="Pesquisa">Buscar</string>
     <string name="ChipMetroidVania">Metroidvania</string>
     <string name="ChipPlataforma">Plataforma</string>
@@ -18,8 +17,10 @@
     <string name="ChipRogueLike">Rogue Like</string>
     <string name="addCarrinho">Adicionar ao Carrinho</string>
     <string name="Descricao">Descrição não disponível</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="Integrantes">Integrantes</string>
     <string name="Intituicao">Instituição</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="buy">Comprar</string>
+    <string name="Remove">Remover</string>
 </resources>

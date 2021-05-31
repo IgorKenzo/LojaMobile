@@ -13,6 +13,7 @@ import br.senac.igor.lojamobile.model.Produto
 import br.senac.igor.lojamobile.services.ProdutoService
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -105,13 +106,19 @@ class CatalogoFragment : Fragment() {
 
                         b.container.addView(cardBinding.root)
 
+                        Picasso.get()
+                                .load("https://i.postimg.cc/"+it.link+"/"+it.id+".jpg")
+                                .placeholder(R.drawable.hl)
+                                .error(R.drawable.hl)
+                                .into(cardBinding.imageView2)
+
                     }
                 }
                 else {
                     val cardBinding = GameCardBinding.inflate(layoutInflater)
 
                     cardBinding.GameName.text = it.nome
-                    cardBinding.GamePrice.text = it.preco.toString()
+                    cardBinding.GamePrice.text = "R$ " + it.preco.toString()
 
                     val produto = it
 
@@ -124,6 +131,12 @@ class CatalogoFragment : Fragment() {
                             .replace(R.id.fragContainer, frag)
                             .commit()
                     }
+
+                    Picasso.get()
+                            .load("https://i.postimg.cc/"+it.link+"/"+it.id+".jpg")
+                            .placeholder(R.drawable.hl)
+                            .error(R.drawable.hl)
+                            .into(cardBinding.imageView2)
 
                     b.container.addView(cardBinding.root)
                 }

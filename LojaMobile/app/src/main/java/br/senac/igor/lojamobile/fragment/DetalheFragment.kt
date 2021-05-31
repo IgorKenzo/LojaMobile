@@ -12,6 +12,7 @@ import br.senac.igor.lojamobile.model.Descricao
 import br.senac.igor.lojamobile.model.Produto
 import br.senac.igor.lojamobile.services.ProdutoService
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -49,7 +50,13 @@ class DetalheFragment : Fragment() {
         Log.e("Produto Vazio?", produto.toString())
 
         b.txtNome.setText(produto.nome)
-        //TODO colocar imagem
+
+        Picasso.get()
+            .load("https://i.postimg.cc/"+produto.link+"/"+produto.id+".jpg")
+            .placeholder(R.drawable.hl)
+            .error(R.drawable.hl)
+            .into(b.Imagem)
+
         b.chipCategoria.setText(produto.categoria)
         b.txtPreco.setText("R$ " + produto.preco.toString())
         //TODO colocar desconto

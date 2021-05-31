@@ -1,16 +1,18 @@
 package br.senac.igor.lojamobile.activity
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SearchView
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.databinding.ActivityMainBinding
 import br.senac.igor.lojamobile.fragment.CartFragment
 import br.senac.igor.lojamobile.fragment.CatalogoFragment
-import kotlin.concurrent.thread
 import br.senac.igor.lojamobile.fragment.SobreFragment
 
 
@@ -28,30 +30,36 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         //Gerencia Toggle
-        toggle = ActionBarDrawerToggle(this, b.drawerLayout, R.string.AbrirMenu, R.string.FecharMenu)
+        toggle = ActionBarDrawerToggle(
+            this,
+            b.drawerLayout,
+            R.string.AbrirMenu,
+            R.string.FecharMenu
+        )
         b.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         //Define o frag default
         val frag = CatalogoFragment.newInstance(null)
-        supportFragmentManager.beginTransaction().replace(R.id.fragContainer, frag).commit()
-
+        supportFragmentManager.beginTransaction().replace(R.id.fragContainer, frag,"CatalogoFragment").commit()
+        b.navigationView.setCheckedItem(R.id.catalogo)
         //Troca Fragmentos
         b.navigationView.setNavigationItemSelectedListener {
             b.drawerLayout.closeDrawers()
 
             when (it.itemId) {
                 R.id.catalogo -> {
-                    val frag = CatalogoFragment.newInstance(null)
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(b.fragContainer.id, frag)
-                        .commit()
-
+                    if(b.navigationView.checkedItem?.itemId != R.id.catalogo) {
+                        val frag = CatalogoFragment.newInstance(null)
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(b.fragContainer.id, frag, "CatalogoFragment")
+                            .commit()
+                    }
                     true
                 }
                 R.id.sobre -> {
-                    val  frag = SobreFragment()
+                    val frag = SobreFragment()
 
                     supportFragmentManager
                         .beginTransaction()
@@ -84,16 +92,22 @@ class MainActivity : AppCompatActivity() {
         val searchItem = menu.findItem(R.id.search)
         if (searchItem != null) {
             val searchView = searchItem.actionView as SearchView
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
                 override fun onQueryTextSubmit(query: String?): Boolean {
 
                     query?.let {
-                        val frag = CatalogoFragment.newInstance(query)
-                        supportFragmentManager
-                            .beginTransaction()
-                            .replace(b.fragContainer.id, frag)
-                            .commit()
+//                        val frag = CatalogoFragment.newInstance(query)
+//                        supportFragmentManager
+//                            .beginTransaction()
+//                            .replace(b.fragContainer.id, frag)
+//                            .commit()
+                        val myFragment: CatalogoFragment? =
+                            supportFragmentManager.findFragmentByTag("CatalogoFragment") as CatalogoFragment?
+                        if (myFragment != null && myFragment.isVisible()) {
+                            myFragment.receberPesquisa(query)
+                        }
+
                     } ?: run {
                         val frag = CatalogoFragment.newInstance(null)
                         supportFragmentManager
@@ -124,9 +138,25 @@ class MainActivity : AppCompatActivity() {
 
             })
 
+//            searchView.setOnSearchClickListener {
+//                searchView.requestFocusFromTouch()
+//            }
+//            searchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
+//                if (hasFocus) {
+//                    showInputMethod(v)
+//                }
+//            }
+
         }
         return true
     }
+
+//    fun showInputMethod(v : View) {
+//        val input = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        if(input != null) {
+//            input.showSoftInput(v, 0)
+//        }
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)){

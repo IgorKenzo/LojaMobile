@@ -135,7 +135,7 @@ class CatalogoFragment : Fragment() {
                     Picasso.get()
                             .load("https://i.postimg.cc/"+it.link+"/"+it.id+".jpg")
                             .placeholder(R.drawable.hl)
-                            .error(R.drawable.hl)
+                            .error(R.drawable.delete)
                             .into(cardBinding.imageView2)
 
                     b.container.addView(cardBinding.root)
@@ -187,6 +187,11 @@ class CatalogoFragment : Fragment() {
         }
 
         call.enqueue(callback)
+    }
+
+    fun receberPesquisa(texto : String) {
+        filtroPesquisa = texto
+        atualizarUI()
     }
 
     companion object {

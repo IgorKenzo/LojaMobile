@@ -36,8 +36,16 @@ class AuthenticationActivity : AppCompatActivity() {
         }
         else {
             setupFirebase()
-            startActivity(Intent(this,MainActivity::class.java))
+
+            vaiPraOutraTela()
         }
+    }
+
+    fun vaiPraOutraTela() {
+        val i = Intent(this,MainActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)//or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(i)
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -46,7 +54,7 @@ class AuthenticationActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(this, "Autenticado", Toast.LENGTH_SHORT)
                 setupFirebase()
-                startActivity(Intent(this,MainActivity::class.java))
+                vaiPraOutraTela()
             } else {
                 finishAffinity()
             }

@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.room.Room
 import br.senac.igor.lojamobile.R
+import br.senac.igor.lojamobile.database.CartDatabase
 import br.senac.igor.lojamobile.databinding.FragmentDetalheBinding
 import br.senac.igor.lojamobile.model.Descricao
+import br.senac.igor.lojamobile.model.Game
 import br.senac.igor.lojamobile.model.Produto
 import br.senac.igor.lojamobile.services.ProdutoService
 import com.google.android.material.snackbar.Snackbar
@@ -60,6 +63,16 @@ class DetalheFragment : Fragment() {
         b.chipCategoria.setText(produto.categoria)
         b.txtPreco.setText("R$ " + produto.preco.toString())
         //TODO colocar desconto
+
+        //Igor : func do botão
+        b.btnAddCarrinho.setOnClickListener {
+            Thread {
+                val game = Game(produto.id, produto.nome, produto.preco.toFloat(), produto.categoria)
+                val db = Room.databaseBuilder(it.context, CartDatabase::class.java, "game").build()
+                db.gameDao().addToCart(game)
+
+            }.start()
+        }
     }
 
     fun colocarDescricao() {

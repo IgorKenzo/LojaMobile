@@ -13,5 +13,10 @@
             android:icon="@drawable/cart"
             android:title="@string/CarrinhoMenuItem"
             app:showAsAction="ifRoom" />
+      <item
+            android:id="@+id/sobre"
+            android:icon="@drawable/ic_baseline_info_24"
+            android:title="@string/SobreMenuItem"
+            app:showAsAction="ifRoom" />
     </group>
 </menu>

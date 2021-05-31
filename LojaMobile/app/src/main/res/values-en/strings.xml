@@ -18,4 +18,8 @@
     <string name="ChipRogueLike">Rogue Like</string>
     <string name="buy">Buy</string>
     <string name="Remove">Remove</string>
+    <string name="addCarrinho">Add to Cart</string>
+    <string name="Descricao">Description Not Available</string>
+    <string name="Integrantes">Crewmates</string>
+    <string name="Intituicao">Institution</string>
 </resources>

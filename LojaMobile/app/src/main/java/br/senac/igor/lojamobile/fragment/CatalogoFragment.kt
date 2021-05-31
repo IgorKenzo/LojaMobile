@@ -13,6 +13,7 @@ import br.senac.igor.lojamobile.model.Produto
 import br.senac.igor.lojamobile.services.ProdutoService
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -80,22 +81,62 @@ class CatalogoFragment : Fragment() {
 
         produtos?.forEach {
 
+            //filtro categoria
             if (filtrosCategorias.count() <= 0 || filtrosCategorias.contains(it.categoria)) {
+                //filtro pesquisa nome
                 if (filtroPesquisa != null) {
                     if (it.nome.contains(filtroPesquisa!!, true)) {
+
                         val cardBinding = GameCardBinding.inflate(layoutInflater)
 
                         cardBinding.GameName.text = it.nome
-                        cardBinding.GamePrice.text = it.preco.toString()
+                        cardBinding.GamePrice.text = "R$ " + it.preco.toString()
+
+                        val produto = it
+
+                        cardBinding.root.setOnClickListener {
+
+                            val frag = DetalheFragment.newInstance(produto)
+
+                            parentFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragContainer, frag)
+                                .commit()
+                        }
 
                         b.container.addView(cardBinding.root)
+
+                        Picasso.get()
+                                .load("https://i.postimg.cc/"+it.link+"/"+it.id+".jpg")
+                                .placeholder(R.drawable.hl)
+                                .error(R.drawable.hl)
+                                .into(cardBinding.imageView2)
+
                     }
                 }
                 else {
                     val cardBinding = GameCardBinding.inflate(layoutInflater)
 
                     cardBinding.GameName.text = it.nome
-                    cardBinding.GamePrice.text = it.preco.toString()
+                    cardBinding.GamePrice.text = "R$ " + it.preco.toString()
+
+                    val produto = it
+
+                    cardBinding.root.setOnClickListener {
+
+                        val frag = DetalheFragment.newInstance(produto)
+
+                        parentFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragContainer, frag)
+                            .commit()
+                    }
+
+                    Picasso.get()
+                            .load("https://i.postimg.cc/"+it.link+"/"+it.id+".jpg")
+                            .placeholder(R.drawable.hl)
+                            .error(R.drawable.hl)
+                            .into(cardBinding.imageView2)
 
                     b.container.addView(cardBinding.root)
                 }
@@ -141,7 +182,7 @@ class CatalogoFragment : Fragment() {
                     .make(b.container, R.string.CallbackErrorConection, Snackbar.LENGTH_LONG)
                     .show()
 
-                Log.e("ERRO", "Falha ao chamar o serviÃ§o", t)
+                Log.e("ERRO", "Falha ao chamar o serviço", t)
             }
         }
 

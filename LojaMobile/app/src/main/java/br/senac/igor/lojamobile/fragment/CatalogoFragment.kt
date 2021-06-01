@@ -26,7 +26,7 @@ class CatalogoFragment : Fragment() {
 
     lateinit var b : FragmentCatalogoBinding
     var filtroPesquisa : String? = null
-    var filtrosCategorias  = arrayListOf<String>()
+    var filtrosCategorias = arrayListOf<String>()
     var produtos = arrayListOf<Produto>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -191,6 +191,11 @@ class CatalogoFragment : Fragment() {
 
     fun receberPesquisa(texto : String) {
         filtroPesquisa = texto
+        atualizarUI()
+    }
+
+    fun fecharPesquisa() {
+        filtroPesquisa = null
         atualizarUI()
     }
 

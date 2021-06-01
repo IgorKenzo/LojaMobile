@@ -8,9 +8,6 @@ data class Produto(
     var preco : Double,
     var categoria : String,
     var desconto : Int,
+    var descricao: String,
     var link : String
 ) : Serializable
-
-data class Descricao(
-    var descricao: String
-)

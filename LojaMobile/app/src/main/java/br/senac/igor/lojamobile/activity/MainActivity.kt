@@ -109,17 +109,30 @@ class MainActivity : AppCompatActivity() {
                         }
 
                     } ?: run {
-                        val frag = CatalogoFragment.newInstance(null)
-                        supportFragmentManager
-                            .beginTransaction()
-                            .replace(b.fragContainer.id, frag)
-                            .commit()
+                        val myFragment: CatalogoFragment? =
+                            supportFragmentManager.findFragmentByTag("CatalogoFragment") as CatalogoFragment?
+                        if (myFragment != null && myFragment.isVisible()) {
+                            myFragment.fecharPesquisa()
+                        }
                     }
 
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+
+                    newText?.let {
+                        val myFragment: CatalogoFragment? =
+                            supportFragmentManager.findFragmentByTag("CatalogoFragment") as CatalogoFragment?
+                        if (myFragment != null && myFragment.isVisible()) {
+                            myFragment.receberPesquisa(newText)
+                        }
+                    } ?: run {
+
+                    }
+
+
+
                     return true
                 }
 

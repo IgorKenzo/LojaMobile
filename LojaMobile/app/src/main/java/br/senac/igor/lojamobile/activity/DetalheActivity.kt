@@ -1,38 +1,29 @@
-package br.senac.igor.lojamobile.fragment
+package br.senac.igor.lojamobile.activity
 
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.room.Room
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.database.CartDatabase
-import br.senac.igor.lojamobile.databinding.FragmentDetalheBinding
+import br.senac.igor.lojamobile.databinding.ActivityDetalheBinding
 import br.senac.igor.lojamobile.model.Game
 import br.senac.igor.lojamobile.model.Produto
 import com.squareup.picasso.Picasso
 
+class DetalheActivity : AppCompatActivity() {
 
-class DetalheFragment : Fragment() {
-
-    lateinit var b : FragmentDetalheBinding
+    lateinit var b : ActivityDetalheBinding
     lateinit var produto : Produto
-    var desricao : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        b = ActivityDetalheBinding.inflate(layoutInflater)
 
-        produto = getArguments()?.getSerializable("Produto") as Produto
-    }
+        produto = intent.getSerializableExtra("Produto") as Produto
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        b = FragmentDetalheBinding.inflate(inflater)
-
-        montarUI()
-
-        return b.root
+        setContentView(b.root)
     }
 
     fun montarUI() {
@@ -47,6 +38,7 @@ class DetalheFragment : Fragment() {
             .into(b.Imagem)
 
         b.chipCategoria.setText(produto.categoria)
+        b.txtDescricao.setText(produto.descricao)
         b.txtPreco.setText("R$ " + produto.preco.toString())
         //TODO colocar desconto
 
@@ -61,16 +53,4 @@ class DetalheFragment : Fragment() {
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(produto: Produto) : DetalheFragment {
-            val myFragment = DetalheFragment()
-            val args = Bundle()
-            args.putSerializable("Produto", produto)
-            myFragment.setArguments(args)
-            return myFragment
-        }
-
-
-    }
 }

@@ -23,4 +23,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="buy">Comprar</string>
     <string name="Remove">Remover</string>
+    <string name="quantidade">Quantidade</string>
 </resources>

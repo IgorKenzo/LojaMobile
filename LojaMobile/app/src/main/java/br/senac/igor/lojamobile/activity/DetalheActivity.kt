@@ -23,6 +23,8 @@ class DetalheActivity : AppCompatActivity() {
 
         produto = intent.getSerializableExtra("Produto") as Produto
 
+        montarUI()
+
         setContentView(b.root)
     }
 
@@ -37,6 +39,7 @@ class DetalheActivity : AppCompatActivity() {
             .error(R.drawable.hl)
             .into(b.Imagem)
 
+        Log.e("AAAAAAAAAAAAAAAAA", produto.toString())
         b.chipCategoria.setText(produto.categoria)
         b.txtDescricao.setText(produto.descricao)
         b.txtPreco.setText("R$ " + produto.preco.toString())

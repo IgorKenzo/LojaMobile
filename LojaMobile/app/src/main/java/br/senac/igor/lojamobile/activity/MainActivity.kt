@@ -128,10 +128,12 @@ class MainActivity : AppCompatActivity() {
                             myFragment.receberPesquisa(newText)
                         }
                     } ?: run {
-
+                        val myFragment: CatalogoFragment? =
+                            supportFragmentManager.findFragmentByTag("CatalogoFragment") as CatalogoFragment?
+                        if (myFragment != null && myFragment.isVisible()) {
+                            myFragment.fecharPesquisa()
+                        }
                     }
-
-
 
                     return true
                 }

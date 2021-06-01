@@ -1,5 +1,6 @@
 package br.senac.igor.lojamobile.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.senac.igor.lojamobile.R
+import br.senac.igor.lojamobile.activity.DetalheActivity
 import br.senac.igor.lojamobile.databinding.FragmentCatalogoBinding
 import br.senac.igor.lojamobile.databinding.GameCardBinding
 import br.senac.igor.lojamobile.model.Produto
@@ -96,12 +98,16 @@ class CatalogoFragment : Fragment() {
 
                         cardBinding.root.setOnClickListener {
 
-                            val frag = DetalheFragment.newInstance(produto)
+                            //val frag = DetalheFragment.newInstance(produto)
 
-                            parentFragmentManager
-                                .beginTransaction()
-                                .replace(R.id.fragContainer, frag)
-                                .commit()
+                            //parentFragmentManager
+                                //.beginTransaction()
+                                //.replace(R.id.fragContainer, frag)
+                                //.commit()
+
+                            var intent = Intent(it.context, DetalheActivity::class.java)
+                            intent.putExtra("Produto", produto)
+                            startActivity(intent)
                         }
 
                         b.container.addView(cardBinding.root)
@@ -124,12 +130,16 @@ class CatalogoFragment : Fragment() {
 
                     cardBinding.root.setOnClickListener {
 
-                        val frag = DetalheFragment.newInstance(produto)
+                        var intent = Intent(it.context, DetalheActivity::class.java)
+                        intent.putExtra("Produto", produto)
+                        startActivity(intent)
 
-                        parentFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fragContainer, frag)
-                            .commit()
+//                        val frag = DetalheFragment.newInstance(produto)
+//
+//                        parentFragmentManager
+//                            .beginTransaction()
+//                            .replace(R.id.fragContainer, frag)
+//                            .commit()
                     }
 
                     Picasso.get()

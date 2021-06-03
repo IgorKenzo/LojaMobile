@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.senac.igor.lojamobile.R
@@ -15,6 +16,7 @@ import br.senac.igor.lojamobile.databinding.GameCardBinding
 import br.senac.igor.lojamobile.databinding.GameCardCartBinding
 import br.senac.igor.lojamobile.model.Compra
 import br.senac.igor.lojamobile.model.Game
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -55,9 +57,16 @@ class CartFragment : Fragment() {
                 }.start()
 
                 b.container.removeAllViews()
-            }
-            else{
-                Toast.makeText(context,"Não há jogos no carrinho", Toast.LENGTH_SHORT).show()
+
+                context?.let { _ ->
+                    Snackbar.make(requireContext(), it, getText(R.string.MessagePurchaseSuccess), Snackbar.LENGTH_SHORT).show()
+                }
+
+                Thread {
+                    activity?.runOnUiThread {
+                        updateUi(arrayListOf())
+                    }
+                }.start()
             }
         }
 
@@ -88,7 +97,8 @@ class CartFragment : Fragment() {
 
     fun updateUi(games: List<Game>) {
         b.container.removeAllViews()
-
+        b.textNoItems.isVisible = games.isEmpty()
+        b.buttonBuy.isVisible = games.isNotEmpty()
         games.forEach {
             val cardBinding = GameCardCartBinding.inflate(layoutInflater)
 

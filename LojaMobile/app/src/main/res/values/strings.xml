@@ -24,4 +24,6 @@
     <string name="buy">Comprar</string>
     <string name="Remove">Remover</string>
     <string name="quantidade">Quantidade</string>
+    <string name="NoItemInCart">Sem itens no carrinho</string>
+    <string name="MessagePurchaseSuccess">Compra realizada com sucesso</string>
 </resources>

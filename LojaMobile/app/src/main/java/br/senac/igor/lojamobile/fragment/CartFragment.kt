@@ -5,29 +5,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.database.CartDatabase
 import br.senac.igor.lojamobile.databinding.FragmentCartBinding
-import br.senac.igor.lojamobile.databinding.GameCardBinding
 import br.senac.igor.lojamobile.databinding.GameCardCartBinding
 import br.senac.igor.lojamobile.model.Compra
-import br.senac.igor.lojamobile.model.Game
+import br.senac.igor.lojamobile.model.Produto
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.squareup.picasso.Picasso
 import java.util.*
 
 
 class CartFragment : Fragment() {
     lateinit var b : FragmentCartBinding
     lateinit var database: DatabaseReference
-    lateinit var games: List<Game>
+    lateinit var games: List<Produto>
     lateinit var db : CartDatabase
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         b = FragmentCartBinding.inflate(inflater)
@@ -36,7 +34,7 @@ class CartFragment : Fragment() {
 
         Thread {
 
-            db = Room.databaseBuilder(container!!.context, CartDatabase::class.java, "game").build()
+            db = Room.databaseBuilder(container!!.context, CartDatabase::class.java, "produto").build()
 //            db.gameDao().addToCart(Game(1,"Hollow Knight",20f,"MetroidVania"))
 //            db.gameDao().addToCart(Game(2,"Ori and the Will of the Wisps",50f,"MetroidVania"))
             updateCart()
@@ -77,7 +75,7 @@ class CartFragment : Fragment() {
         games = db.gameDao().getCart()
     }
 
-    fun buy(games: List<Game>) {
+    fun buy(games: List<Produto>) {
         val compra = Compra(games = games, dateOfPurchase = Date())
         val newNode = database?.child("comprado")?.push()
         compra.id = newNode.key
@@ -95,15 +93,20 @@ class CartFragment : Fragment() {
         }
     }
 
-    fun updateUi(games: List<Game>) {
+    fun updateUi(games: List<Produto>) {
         b.container.removeAllViews()
         b.textNoItems.isVisible = games.isEmpty()
         b.buttonBuy.isVisible = games.isNotEmpty()
         games.forEach {
             val cardBinding = GameCardCartBinding.inflate(layoutInflater)
 
-            cardBinding.textName.text = it.name
-            cardBinding.textPrice.text = "R\$${it.price}"
+            cardBinding.textName.text = it.nome
+            cardBinding.textPrice.text = "R\$${it.preco}"
+            Picasso.get()
+                    .load("https://i.postimg.cc/"+it.link+"/"+it.id+".jpg")
+                    .placeholder(R.drawable.hl)
+                    .error(R.drawable.hl)
+                    .into(cardBinding.imageViewGame)
 
             cardBinding.buttonRemove.setOnClickListener {_ ->
                 Thread {

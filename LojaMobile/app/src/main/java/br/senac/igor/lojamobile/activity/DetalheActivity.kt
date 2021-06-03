@@ -45,9 +45,8 @@ class DetalheActivity : AppCompatActivity() {
         //Igor : func do botão
         b.btnAddCarrinho.setOnClickListener {
             Thread {
-                val game = Game(produto.id, produto.nome, produto.preco.toFloat(), produto.categoria)
                 val db = Room.databaseBuilder(it.context, CartDatabase::class.java, "game").build()
-                db.gameDao().addToCart(game)
+                db.gameDao().addToCart(produto)
 
             }.start()
         }

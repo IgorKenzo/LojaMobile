@@ -7,11 +7,11 @@ import java.io.Serializable
 @Entity
 data class Produto(
     @PrimaryKey(autoGenerate = false)
-    var id : Int,
-    var nome : String,
-    var preco : Double,
-    var categoria : String,
-    var desconto : Int,
-    var descricao: String,
-    var link : String
+    var id : Int = 0,
+    var nome : String = "",
+    var preco : Double = 0.0,
+    var categoria : String = "",
+    var desconto : Int = 0,
+    var descricao: String = "",
+    var link : String = ""
 ) : Serializable

@@ -39,7 +39,6 @@ class DetalheActivity : AppCompatActivity() {
             .error(R.drawable.hl)
             .into(b.Imagem)
 
-        Log.e("AAAAAAAAAAAAAAAAA", produto.toString())
         b.chipCategoria.setText(produto.categoria)
         b.txtDescricao.setText(produto.descricao)
         b.txtPreco.setText("R$ " + produto.preco.toString())
@@ -48,10 +47,12 @@ class DetalheActivity : AppCompatActivity() {
         //Igor : func do botão
         b.btnAddCarrinho.setOnClickListener {
             Thread {
-                val db = Room.databaseBuilder(it.context, CartDatabase::class.java, "game").build()
+                val db = Room.databaseBuilder(it.context, CartDatabase::class.java, "produto").build()
                 db.gameDao().addToCart(produto)
 
             }.start()
+
+            finish()
         }
     }
 

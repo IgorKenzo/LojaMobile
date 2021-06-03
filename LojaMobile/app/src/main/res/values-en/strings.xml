@@ -23,4 +23,6 @@
     <string name="Integrantes">Crewmates</string>
     <string name="Intituicao">Institution</string>
     <string name="quantidade">Quantity</string>
+    <string name="NoItemInCart">No items in cart</string>
+    <string name="MessagePurchaseSuccess">Successful Purchase</string>
 </resources>

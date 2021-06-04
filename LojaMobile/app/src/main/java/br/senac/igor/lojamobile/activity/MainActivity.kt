@@ -13,6 +13,7 @@ import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.databinding.ActivityMainBinding
 import br.senac.igor.lojamobile.fragment.CartFragment
 import br.senac.igor.lojamobile.fragment.CatalogoFragment
+import br.senac.igor.lojamobile.fragment.ComprasFragment
 import br.senac.igor.lojamobile.fragment.SobreFragment
 
 
@@ -68,14 +69,21 @@ class MainActivity : AppCompatActivity() {
 
                     true
                 }
-
-
                 R.id.cartMenuItem -> {
                     val frag = CartFragment.newInstance()
                     supportFragmentManager
                         .beginTransaction()
                         .replace(b.fragContainer.id, frag)
                         .commit()
+
+                    true
+                }
+                R.id.compra -> {
+                    val frag = ComprasFragment()
+                    supportFragmentManager
+                            .beginTransaction()
+                            .replace(b.fragContainer.id, frag)
+                            .commit()
 
                     true
                 }
@@ -107,6 +115,13 @@ class MainActivity : AppCompatActivity() {
                         if (myFragment != null && myFragment.isVisible()) {
                             myFragment.receberPesquisa(query)
                         }
+                        else{
+                            val frag = CatalogoFragment.newInstance(query)
+                            supportFragmentManager
+                                    .beginTransaction()
+                                    .replace(b.fragContainer.id, frag, "CatalogoFragment")
+                                    .commit()
+                        }
 
                     } ?: run {
                         val myFragment: CatalogoFragment? =
@@ -128,10 +143,12 @@ class MainActivity : AppCompatActivity() {
                             myFragment.receberPesquisa(newText)
                         }
                     } ?: run {
-
+                        val myFragment: CatalogoFragment? =
+                            supportFragmentManager.findFragmentByTag("CatalogoFragment") as CatalogoFragment?
+                        if (myFragment != null && myFragment.isVisible()) {
+                            myFragment.fecharPesquisa()
+                        }
                     }
-
-
 
                     return true
                 }

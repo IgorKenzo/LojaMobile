@@ -1,5 +1,6 @@
 package br.senac.igor.lojamobile.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.senac.igor.lojamobile.R
+import br.senac.igor.lojamobile.activity.DetalheActivity
 import br.senac.igor.lojamobile.databinding.FragmentCatalogoBinding
 import br.senac.igor.lojamobile.databinding.GameCardBinding
 import br.senac.igor.lojamobile.model.Produto
@@ -77,6 +79,9 @@ class CatalogoFragment : Fragment() {
     }
 
     fun atualizarUI() {
+
+        Log.e("AAAAAAAA", filtroPesquisa.toString())
+
         b.container.removeAllViews()
 
         produtos?.forEach {
@@ -96,12 +101,16 @@ class CatalogoFragment : Fragment() {
 
                         cardBinding.root.setOnClickListener {
 
-                            val frag = DetalheFragment.newInstance(produto)
+                            //val frag = DetalheFragment.newInstance(produto)
 
-                            parentFragmentManager
-                                .beginTransaction()
-                                .replace(R.id.fragContainer, frag)
-                                .commit()
+                            //parentFragmentManager
+                                //.beginTransaction()
+                                //.replace(R.id.fragContainer, frag)
+                                //.commit()
+
+                            var intent = Intent(it.context, DetalheActivity::class.java)
+                            intent.putExtra("Produto", produto)
+                            startActivity(intent)
                         }
 
                         b.container.addView(cardBinding.root)
@@ -124,12 +133,16 @@ class CatalogoFragment : Fragment() {
 
                     cardBinding.root.setOnClickListener {
 
-                        val frag = DetalheFragment.newInstance(produto)
+                        var intent = Intent(it.context, DetalheActivity::class.java)
+                        intent.putExtra("Produto", produto)
+                        startActivity(intent)
 
-                        parentFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fragContainer, frag)
-                            .commit()
+//                        val frag = DetalheFragment.newInstance(produto)
+//
+//                        parentFragmentManager
+//                            .beginTransaction()
+//                            .replace(R.id.fragContainer, frag)
+//                            .commit()
                     }
 
                     Picasso.get()
@@ -164,6 +177,8 @@ class CatalogoFragment : Fragment() {
 
         val callback = object : Callback<List<Produto>> {
             override fun onResponse(call: Call<List<Produto>>, response: Response<List<Produto>>) {
+                b.progressBar.visibility = View.INVISIBLE
+
                 if (response.isSuccessful) {
                     produtos = response.body() as ArrayList<Produto>
                     atualizarUI()
@@ -178,6 +193,7 @@ class CatalogoFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<Produto>>, t: Throwable) {
+                b.progressBar.visibility = View.INVISIBLE
                 Snackbar
                     .make(b.container, R.string.CallbackErrorConection, Snackbar.LENGTH_LONG)
                     .show()
@@ -186,6 +202,7 @@ class CatalogoFragment : Fragment() {
             }
         }
 
+        b.progressBar.visibility = View.VISIBLE
         call.enqueue(callback)
     }
 

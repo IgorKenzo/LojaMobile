@@ -13,7 +13,11 @@
             android:icon="@drawable/cart"
             android:title="@string/CarrinhoMenuItem"
             app:showAsAction="ifRoom" />
-      <item
+        <item
+            android:id="@+id/compra"
+            android:icon="@drawable/compra"
+            android:title="@string/Compra" />
+        <item
             android:id="@+id/sobre"
             android:icon="@drawable/ic_baseline_info_24"
             android:title="@string/SobreMenuItem"

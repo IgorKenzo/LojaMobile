@@ -4,20 +4,20 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import br.senac.igor.lojamobile.model.Game
+import br.senac.igor.lojamobile.model.ItemPedido
 import br.senac.igor.lojamobile.model.Produto
 
 @Dao
 interface GameDao {
-    @Query("SELECT * from produto")
-    fun getCart(): List<Produto>
+    @Query("SELECT * from itempedido")
+    fun getCart(): List<ItemPedido>
 
     @Insert
-    fun addToCart(game: Produto)
+    fun addToCart(game: ItemPedido)
 
     @Delete
-    fun removeFromCart(game: Produto)
+    fun removeFromCart(game: ItemPedido)
 
-    @Query("DELETE FROM produto")
+    @Query("DELETE FROM itempedido")
     fun emptyCart()
 }

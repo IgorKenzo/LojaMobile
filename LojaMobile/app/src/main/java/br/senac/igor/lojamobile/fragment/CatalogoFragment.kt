@@ -2,6 +2,8 @@ package br.senac.igor.lojamobile.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.StrikethroughSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -80,8 +82,6 @@ class CatalogoFragment : Fragment() {
 
     fun atualizarUI() {
 
-        Log.e("AAAAAAAA", filtroPesquisa.toString())
-
         b.container.removeAllViews()
 
         produtos?.forEach {
@@ -96,6 +96,12 @@ class CatalogoFragment : Fragment() {
 
                         cardBinding.GameName.text = it.nome
                         cardBinding.GamePrice.text = "R$ " + it.preco.toString()
+                        if (it.desconto > 0) {
+                            var txt = SpannableString("R$ " + it.preco.toString())
+                            txt.setSpan(StrikethroughSpan(),0, txt.length,0)
+                            cardBinding.GamePrice2.text = txt
+                            cardBinding.GamePrice.text = "-" + it.desconto + "% | RS " + (it.preco - it.preco * it.desconto/100).toString()
+                        }
 
                         val produto = it
 
@@ -128,6 +134,12 @@ class CatalogoFragment : Fragment() {
 
                     cardBinding.GameName.text = it.nome
                     cardBinding.GamePrice.text = "R$ " + it.preco.toString()
+                    if (it.desconto > 0) {
+                        var txt = SpannableString("R$ " + it.preco.toString())
+                        txt.setSpan(StrikethroughSpan(),0, txt.length,0)
+                        cardBinding.GamePrice2.text = txt
+                        cardBinding.GamePrice.text = "-" + it.desconto + "% | RS " + (it.preco - it.preco * it.desconto/100).toString()
+                    }
 
                     val produto = it
 

@@ -1,5 +1,6 @@
 package br.senac.igor.lojamobile.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,13 +21,14 @@ class CompraRecyvlerViewAdapter(options: FirebaseRecyclerOptions<Compra>): Fireb
 
             compra.games?.forEach {
                 val cardBinding = GameCardBinding.inflate(LayoutInflater.from(binding.root.context))
-                cardBinding.GameName.text = it.nome
-                cardBinding.GamePrice.text = "R$ " + it.preco.toString()
+                cardBinding.GameName.text = it.produto.nome
+                cardBinding.GamePrice.text = "R$ " + (it.quantidade * (it.produto.preco - it.produto.preco * it.produto.desconto/100)).toString()
+                cardBinding.GamePrice2.text = "Quantidade: " + it.quantidade.toString() + " -"
 
                 binding.container.addView(cardBinding.root)
 
                 Picasso.get()
-                        .load("https://i.postimg.cc/"+it.link+"/"+it.id+".jpg")
+                        .load("https://i.postimg.cc/"+it.produto.link+"/"+it.produto.id+".jpg")
                         .placeholder(R.drawable.hl)
                         .error(R.drawable.hl)
                         .into(cardBinding.imageView2)
@@ -43,6 +45,7 @@ class CompraRecyvlerViewAdapter(options: FirebaseRecyclerOptions<Compra>): Fireb
     }
 
     override fun onBindViewHolder(holder: CompraViewHolder, position: Int, model: Compra) {
+        Log.e("AAAAAAAAAA", model.toString())
         holder.bind(model)
     }
 

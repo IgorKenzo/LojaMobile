@@ -5,6 +5,6 @@ import java.util.*
 
 data class Compra(
         var id: String? = null,
-        val games: List<Produto> = emptyList(),
+        val games: List<ItemPedido> = emptyList(),
         val dateOfPurchase: Date = java.util.Calendar.getInstance().time
 )

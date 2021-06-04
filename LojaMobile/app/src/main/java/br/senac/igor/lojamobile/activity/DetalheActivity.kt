@@ -1,14 +1,14 @@
 package br.senac.igor.lojamobile.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.text.SpannableString
+import android.text.style.StrikethroughSpan
 import androidx.room.Room
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.database.CartDatabase
 import br.senac.igor.lojamobile.databinding.ActivityDetalheBinding
-import br.senac.igor.lojamobile.model.Game
+import br.senac.igor.lojamobile.model.ItemPedido
 import br.senac.igor.lojamobile.model.Produto
 import com.squareup.picasso.Picasso
 
@@ -29,7 +29,6 @@ class DetalheActivity : AppCompatActivity() {
     }
 
     fun montarUI() {
-        Log.e("Produto Vazio?", produto.toString())
 
         b.txtNome.setText(produto.nome)
 
@@ -42,13 +41,19 @@ class DetalheActivity : AppCompatActivity() {
         b.chipCategoria.setText(produto.categoria)
         b.txtDescricao.setText(produto.descricao)
         b.txtPreco.setText("R$ " + produto.preco.toString())
-        //TODO colocar desconto
+        if (produto.desconto > 0) {
+            var txt = SpannableString("R$ " + produto.preco.toString())
+            txt.setSpan(StrikethroughSpan(),0, txt.length,0)
+            b.txtPreco2.text = txt
+            b.txtPreco.text = "-" + produto.desconto + "% | RS " + (produto.preco - produto.preco * produto.desconto/100).toString()
+        }
 
         //Igor : func do botão
         b.btnAddCarrinho.setOnClickListener {
             Thread {
                 val db = Room.databaseBuilder(it.context, CartDatabase::class.java, "produto").build()
-                db.gameDao().addToCart(produto)
+                val item = ItemPedido(produto = produto, quantidade = 1)
+                db.gameDao().addToCart(item)
 
             }.start()
 

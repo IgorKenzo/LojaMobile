@@ -39,8 +39,7 @@ class CartFragment : Fragment() {
         Thread {
 
             db = Room.databaseBuilder(container!!.context, CartDatabase::class.java, "produto").build()
-//            db.gameDao().addToCart(Game(1,"Hollow Knight",20f,"MetroidVania"))
-//            db.gameDao().addToCart(Game(2,"Ori and the Will of the Wisps",50f,"MetroidVania"))
+
             updateCart()
 
             activity?.runOnUiThread {
@@ -117,12 +116,25 @@ class CartFragment : Fragment() {
             cardBinding.imgMenos.setOnClickListener {
                 prod.quantidade -= 1
                 if (prod.quantidade <= 0) {
-                    //TODO IGOOOOOR, não sei remover do Room ajuda nois pls
+                    Thread {
+                        db.gameDao().removeFromCart(prod)
+                        updateCart()
+                        activity?.runOnUiThread {
+                            updateUi(this.games)
+                        }
+                    }.start()
+                }else {
+                    Thread {
+                        db.gameDao().updateItemPedido(prod)
+                    }.start()
+                    updateUi(games)
                 }
-                updateUi(games)
             }
             cardBinding.imgMais.setOnClickListener {
                 prod.quantidade += 1
+                Thread {
+                    db.gameDao().updateItemPedido(prod)
+                }.start()
                 updateUi(games)
             }
 

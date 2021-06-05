@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LojaGames</string>
+    <string name="app_name">Pombo Frio</string>
     <string name="CallbackErrorResponse">\"Não foi possível atualizar o catálogo\"</string>
     <string name="CallbackErrorConection">Sem conexão com a internet</string>
     <string name="CatalogoMenuItem">Catálogo</string>
@@ -27,4 +27,6 @@
     <string name="NoItemInCart">Sem itens no carrinho</string>
     <string name="MessagePurchaseSuccess">Compra realizada com sucesso</string>
     <string name="Compra">Minhas Compras</string>
+    <string name="header_title">Logado como</string>
+    <string name="header_text">HeaderText</string>
 </resources>

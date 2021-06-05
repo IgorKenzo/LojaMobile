@@ -1,9 +1,6 @@
 package br.senac.igor.lojamobile.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import br.senac.igor.lojamobile.model.ItemPedido
 import br.senac.igor.lojamobile.model.Produto
 
@@ -20,4 +17,10 @@ interface GameDao {
 
     @Query("DELETE FROM itempedido")
     fun emptyCart()
+
+    @Query("SELECT * FROM itempedido WHERE produto LIKE :prod ")
+    fun getItemFromCart(prod: String) : ItemPedido
+
+    @Update
+    fun updateItemPedido(itemPedido: ItemPedido)
 }

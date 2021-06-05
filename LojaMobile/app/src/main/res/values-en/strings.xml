@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LojaGames</string>
+    <string name="app_name">Pombo Frio</string>
     <string name="CallbackErrorResponse">The catalog could not be updated</string>
     <string name="CallbackErrorConection">No internet connection</string>
     <string name="CatalogoMenuItem">Catalog</string>
@@ -27,4 +27,6 @@
     <string name="MessagePurchaseSuccess">Successful Purchase</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Compra">"My Shopping "</string>
+    <string name="header_title">Logged as</string>
+    <string name="header_text">HeaderText</string>
 </resources>

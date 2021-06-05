@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -15,21 +16,30 @@ import br.senac.igor.lojamobile.fragment.CartFragment
 import br.senac.igor.lojamobile.fragment.CatalogoFragment
 import br.senac.igor.lojamobile.fragment.ComprasFragment
 import br.senac.igor.lojamobile.fragment.SobreFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var b : ActivityMainBinding
     lateinit var toggle: ActionBarDrawerToggle
+    lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
-
+        setupFirebase()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val email = getUserEmail()
+        val headerView = b.navigationView.getHeaderView(0)
+        val textEmail = headerView.findViewById<TextView>(R.id.textHeaderEmail)
+        textEmail.text = email
         //Gerencia Toggle
         toggle = ActionBarDrawerToggle(
             this,
@@ -91,6 +101,25 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
 
+        }
+    }
+
+    fun getUserEmail() : String? {
+        val user = getCurrentUser()
+        user?.let {
+            return user.email
+        }
+        return null
+    }
+
+    fun getCurrentUser(): FirebaseUser? {
+        return FirebaseAuth.getInstance().currentUser
+    }
+
+    fun setupFirebase() {
+        val user = getCurrentUser()
+        user?.let {
+            database = FirebaseDatabase.getInstance().reference.child(user.uid)
         }
     }
 

@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.StrikethroughSpan
+import android.util.Log
 import androidx.room.Room
 import br.senac.igor.lojamobile.R
 import br.senac.igor.lojamobile.database.CartDatabase
 import br.senac.igor.lojamobile.databinding.ActivityDetalheBinding
 import br.senac.igor.lojamobile.model.ItemPedido
 import br.senac.igor.lojamobile.model.Produto
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 
 class DetalheActivity : AppCompatActivity() {
@@ -52,13 +55,32 @@ class DetalheActivity : AppCompatActivity() {
         b.btnAddCarrinho.setOnClickListener {
             Thread {
                 val db = Room.databaseBuilder(it.context, CartDatabase::class.java, "produto").build()
-                val item = ItemPedido(produto = produto, quantidade = 1)
-                db.gameDao().addToCart(item)
+
+                val prodJson = fromProduto(produto)
+
+                val prodCart = db.gameDao().getItemFromCart(prodJson) as? ItemPedido
+
+                if (prodCart != null) {
+                    prodCart.quantidade += 1
+                    db.gameDao().updateItemPedido(prodCart)
+                    Snackbar.make(it, "Quantidade atualizada no carrinho", Snackbar.LENGTH_SHORT).show()
+                }
+                else{
+                    val item = ItemPedido(produto = produto, quantidade = 1)
+                    db.gameDao().addToCart(item)
+                    Snackbar.make(it, "Produto adicionado no carrinho", Snackbar.LENGTH_SHORT).show()
+                }
 
             }.start()
 
             finish()
         }
+    }
+
+    fun fromProduto(prods: Produto): String {
+        val gson = Gson()
+
+        return gson.toJson(prods)
     }
 
 }

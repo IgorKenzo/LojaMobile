@@ -1,5 +1,6 @@
 package br.senac.igor.lojamobile.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
@@ -116,7 +117,7 @@ class CatalogoFragment : Fragment() {
 
                             var intent = Intent(it.context, DetalheActivity::class.java)
                             intent.putExtra("Produto", produto)
-                            startActivity(intent)
+                            startActivityForResult(intent, 0)
                         }
 
                         b.container.addView(cardBinding.root)
@@ -147,7 +148,7 @@ class CatalogoFragment : Fragment() {
 
                         var intent = Intent(it.context, DetalheActivity::class.java)
                         intent.putExtra("Produto", produto)
-                        startActivity(intent)
+                        startActivityForResult(intent, 0)
 
 //                        val frag = DetalheFragment.newInstance(produto)
 //
@@ -242,5 +243,14 @@ class CatalogoFragment : Fragment() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 0) {
+            if(resultCode == Activity.RESULT_OK) {
+                val str = data?.getStringExtra("result");
+                Snackbar.make(b.root, str.toString(), Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 }
